@@ -7,6 +7,7 @@ import HomeView from '../views/HomeView.vue'
 import PersonajesView from '@/views/PersonajesView.vue';
 import ContactoView from '@/views/ContactoView.vue';
 import InfoPersonajeView from '@/views/InfoPersonajeView.vue';
+import NotFoundView from '@/views/NotFoundView.vue';
 
 Vue.use(VueRouter)
 
@@ -16,10 +17,15 @@ const routes = [
     name: 'home',
     component: HomeView
   },
+  /**
+   * Agregar un alias a la ruta /personajes, para que desde la url del navegador, al escribir /people o /character envié al 
+   *    usuario a PersonajesView.
+   */
   {
     path: '/personajes',
     name: 'personajes',
     component: PersonajesView,
+    alias:['/people','/characters'],
   },
   /**
    * Para poder entrar a la propiedad :id que se envía por la ruta, se debe agregar la opción "props: true" para que la props 
@@ -43,7 +49,15 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+  },
+  /**
+   * Crear una ruta comodín para mostrar un mensaje al usuario cuando intente entrar a una ruta no valida.
+   */
+  {
+    path: '*',
+    name: 'notFound',
+    component: NotFoundView,
+  },
 ]
 
 const router = new VueRouter({
